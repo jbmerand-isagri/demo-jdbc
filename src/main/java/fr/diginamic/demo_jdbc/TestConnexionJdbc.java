@@ -5,17 +5,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import fr.diginamic.demo_jdbc.dao.Statements;
 import fr.diginamic.demo_jdbc.exceptions.TechnicalException;
 
 /**
- *
+ * Classe principale de lancement du test
  */
 public class TestConnexionJdbc {
 
 	/**
+	 * Méthode principale de lancement du test
+	 * 
 	 * @param args
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
 	 */
 	public static void main(String[] args) {
 
@@ -37,6 +38,12 @@ public class TestConnexionJdbc {
 		try {
 			connexion = DriverManager.getConnection(url, userName, pwd);
 			System.out.println(connexion.getClass().getName());
+			Statements statements = new Statements();
+			statements.insererArticles(connexion);
+			statements.augmenterPrixDe25PourCent(connexion);
+			statements.afficherLesArticles(connexion);
+			statements.extraireEtAfficherMoyennePrix(connexion);
+			statements.supprimerIntegraliteArticles(connexion);
 		} catch (SQLException e) {
 			throw new TechnicalException("La connexion à la bdd a echoué.", e);
 		} finally {
