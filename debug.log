@@ -1,0 +1,35 @@
+10:48:27.986 [main] ERROR f.diginamic.demo_jdbc.dao.Statements - Echec de la connexion à la base de données
+java.sql.SQLSyntaxErrorException: Unknown column 'DESIGN' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1355)
+	at com.mysql.cj.jdbc.StatementImpl.executeLargeUpdate(StatementImpl.java:2128)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1264)
+	at fr.diginamic.demo_jdbc.dao.Statements.insererArticles(Statements.java:36)
+	at fr.diginamic.demo_jdbc.TestConnexionJdbc.main(TestConnexionJdbc.java:42)
+14:15:36.974 [main] ERROR f.diginamic.demo_jdbc.dao.Statements - Echec: connexion à la base de données
+java.sql.SQLSyntaxErrorException: Unknown column 'DESIGN' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1355)
+	at com.mysql.cj.jdbc.StatementImpl.executeLargeUpdate(StatementImpl.java:2128)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1264)
+	at fr.diginamic.demo_jdbc.dao.Statements.insererArticles(Statements.java:37)
+	at fr.diginamic.demo_jdbc.TestConnexionJdbc.main(TestConnexionJdbc.java:49)
+14:21:04.654 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: articles insérés
+14:21:04.658 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: augmentation du prix de 25%
+14:21:04.691 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: tous les articles ont été supprimés. | 0 lignes
+14:22:41.693 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: articles insérés
+14:22:41.697 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: augmentation du prix de 25%
+14:22:41.718 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: tous les articles ont été supprimés. | 0 lignes
+14:35:44.501 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: articles insérés
+14:35:44.506 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: augmentation du prix de 25%
+14:35:44.529 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: tous les articles ont été supprimés. | 0 lignes
+14:37:02.995 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: articles insérés
+14:37:03.001 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: augmentation du prix de 25%
+14:37:03.034 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: tous les articles ont été supprimés. | 0 lignes
+14:38:59.024 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: articles insérés
+14:38:59.030 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: augmentation du prix de 25%
+14:38:59.057 [main] INFO  f.diginamic.demo_jdbc.dao.Statements - OK: tous les articles ont été supprimés.

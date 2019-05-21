@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.diginamic.demo_jdbc.exceptions.TechnicalException;
 
 /**
@@ -13,10 +16,13 @@ import fr.diginamic.demo_jdbc.exceptions.TechnicalException;
  */
 public class Statements {
 
+	/** LOGGER : Logger */
+	private static final Logger LOGGER = LoggerFactory.getLogger(Statements.class);
+
 	/**
 	 * insère 4 articles dans la table ARTICLE (10€, 0.5€, 25€, 15€)
 	 * 
-	 * @param connexion
+	 * @param connexion connexion à la base de données
 	 */
 	public void insererArticles(Connection connexion) {
 		Statement monStatement = null;
@@ -36,18 +42,21 @@ public class Statements {
 					"INSERT INTO ARTICLE (DESIGNATION, FOURNISSEUR, PRIX) VALUES ('Sac', 'Timberland', 25)");
 			int nb4 = monStatement2.executeUpdate(
 					"INSERT INTO ARTICLE (DESIGNATION, FOURNISSEUR, PRIX) VALUES ('Casquette', 'Nike', 15)");
+			LOGGER.info("OK: articles insérés");
 		} catch (SQLException e) {
+			LOGGER.error("Echec: connexion à la base de données", e);
 			throw new TechnicalException("La connexion à la bdd a echoué.", e);
 		} finally {
-			try {
-				if (monStatement != null && monStatement2 != null && monStatement3 != null && monStatement4 != null) {
+			if (monStatement != null && monStatement2 != null && monStatement3 != null && monStatement4 != null) {
+				try {
 					monStatement.close();
 					monStatement2.close();
 					monStatement3.close();
 					monStatement4.close();
+				} catch (SQLException e) {
+					LOGGER.error("Echec: fermeture des statements", e);
+					throw new TechnicalException("Fermeture des statements echouée.", e);
 				}
-			} catch (SQLException e) {
-				throw new TechnicalException("Fermeture des statements echouée.", e);
 			}
 		}
 	}
@@ -55,22 +64,25 @@ public class Statements {
 	/**
 	 * augmente les tarifs de 25% des articles de plus de 10€
 	 * 
-	 * @param connexion
+	 * @param connexion connexion à la base de données
 	 */
 	public void augmenterPrixDe25PourCent(Connection connexion) {
 		Statement statement = null;
 		try {
 			statement = connexion.createStatement();
 			int nb = statement.executeUpdate("UPDATE ARTICLE SET PRIX=PRIX*1.25 WHERE PRIX>10");
+			LOGGER.info("OK: augmentation du prix de 25%");
 		} catch (SQLException e) {
+			LOGGER.error("Echec: connexion à la base de données", e);
 			throw new TechnicalException("La connexion à la bdd a echoué.", e);
 		} finally {
-			try {
-				if (statement != null) {
+			if (statement != null) {
+				try {
 					statement.close();
+				} catch (SQLException e) {
+					LOGGER.error("Echec: fermeture des statements", e);
+					throw new TechnicalException("Fermeture du statements echouée.", e);
 				}
-			} catch (SQLException e) {
-				throw new TechnicalException("Fermeture du statements echouée.", e);
 			}
 		}
 	}
@@ -78,7 +90,7 @@ public class Statements {
 	/**
 	 * affiche tous les articles
 	 * 
-	 * @param connexion
+	 * @param connexion connexion à la base de données
 	 */
 	public void afficherLesArticles(Connection connexion) {
 		Statement statement = null;
@@ -96,15 +108,16 @@ public class Statements {
 				System.out.println("id: " + id + " | " + "designation: " + designation + " | " + "fournisseur: "
 						+ fournisseur + " | " + "prix: " + prix);
 			}
-
 			curseurArticles.close();
 		} catch (SQLException e) {
+			LOGGER.error("Echec: connexion à la base de données", e);
 			throw new TechnicalException("La connexion à la bdd a echoué.", e);
 		} finally {
 			if (curseurArticles != null) {
 				try {
 					curseurArticles.close();
 				} catch (SQLException e) {
+					LOGGER.error("Echec: fermeture du ResultSet.", e);
 					throw new TechnicalException("Echec de la fermeture du ResultSet");
 				}
 			}
@@ -112,6 +125,7 @@ public class Statements {
 				try {
 					statement.close();
 				} catch (SQLException e) {
+					LOGGER.error("Echec: fermeture du statement", e);
 					throw new TechnicalException("Fermeture du statements echouée.", e);
 				}
 			}
@@ -121,7 +135,7 @@ public class Statements {
 	/**
 	 * extrait la moyenne des prix des articles et affiche cette moyenne
 	 * 
-	 * @param connexion
+	 * @param connexion connexion à la base de données
 	 */
 	public void extraireEtAfficherMoyennePrix(Connection connexion) {
 		Statement statement = null;
@@ -135,14 +149,15 @@ public class Statements {
 				Double moyenne = curseurArticles.getDouble("MOYENNE");
 				System.out.println(moyenne);
 			}
-			curseurArticles.close();
 		} catch (SQLException e) {
+			LOGGER.error("Echec: connexion à la base de données", e);
 			throw new TechnicalException("La connexion à la bdd a echoué.", e);
 		} finally {
 			if (curseurArticles != null) {
 				try {
 					curseurArticles.close();
 				} catch (SQLException e) {
+					LOGGER.error("Echec: fermeture du ResultSet", e);
 					throw new TechnicalException("Echec de la fermeture du ResultSet");
 				}
 			}
@@ -150,7 +165,8 @@ public class Statements {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					throw new TechnicalException("Fermeture du statements echouée.", e);
+					LOGGER.error("Echec: fermeture du statement", e);
+					throw new TechnicalException("Fermeture du statement echouée.", e);
 				}
 			}
 		}
@@ -166,17 +182,19 @@ public class Statements {
 		try {
 			statement = connexion.createStatement();
 			int nb = statement.executeUpdate("TRUNCATE TABLE ARTICLE");
+			LOGGER.info("OK: tous les articles ont été supprimés.");
 		} catch (SQLException e) {
+			LOGGER.error("Echec: connexion à la base de données", e);
 			throw new TechnicalException("La connexion à la bdd a echoué.", e);
 		} finally {
-			try {
-				if (statement != null) {
+			if (statement != null) {
+				try {
 					statement.close();
+				} catch (SQLException e) {
+					LOGGER.error("Echec: fermeture du statement", e);
+					throw new TechnicalException("Fermeture du statement echouée.", e);
 				}
-			} catch (SQLException e) {
-				throw new TechnicalException("Fermeture du statements echouée.", e);
 			}
 		}
 	}
-
 }
